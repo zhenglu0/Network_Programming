@@ -13,7 +13,6 @@
 #define MAX_LEN  1024   /* maximum receive string size */
 #define MIN_PORT 1024   /* minimum port allowed */
 #define MAX_PORT 65535  /* maximum port allowed */
-#define USE_IP_MULTICAST_ALL 1
 
 int main(int argc, char *argv[]) {
 

@@ -6,7 +6,7 @@ CFLAGS = $(CXXFLAGS)
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CXXFLAGS  = -Wall -Werror
+CXXFLAGS  = -Wall -Werror -D USE_IP_MULTICAST_ALL
 LDFLAGS = -lboost_system -pthread
 SPECIAL_FLAGS = -std=c++11
 
