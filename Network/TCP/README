@@ -1,6 +1,6 @@
 https://www.cs.rutgers.edu/~pxk/417/notes/sockets/index.html
 
-This is a small program that demonstrates the setup of a 
+This is a small program that demonstrates the setup of a
 TCP/IP connection.
 
 Before compiling it, you may want to edit port.h and set a
