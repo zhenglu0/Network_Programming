@@ -10,6 +10,8 @@
 #include <netdb.h>      /* for gethostbyname() */
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include "port.h"       /* defines default port */
 
@@ -19,7 +21,7 @@ int conn(char *host, int port);
 void disconn(int fd);
 int doprocessing (int fd);
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     extern char *optarg;
     extern int optind;
@@ -159,13 +161,13 @@ doprocessing (int fd)
     /* send the message line to the server */
     n = write(fd, buf, strlen(buf));
     if (n < 0)
-      error("ERROR writing to socket");
+      perror("ERROR writing to socket");
 
     /* print the server's reply */
     bzero(buf, BUFSIZE);
     n = read(fd, buf, BUFSIZE);
     if (n < 0)
-      error("ERROR reading from socket");
+      perror("ERROR reading from socket");
     printf("Echo from server: %s", buf);
 
     return 1;

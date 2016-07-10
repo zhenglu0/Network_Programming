@@ -14,6 +14,8 @@
 #include <netinet/in.h>
 #include <sys/errno.h>   /* defines ERESTART, EINTR */
 #include <sys/wait.h>    /* defines WNOHANG, for wait() */
+#include <unistd.h>
+#include <errno.h>
 
 #include "port.h"       /* defines default port */
 
@@ -29,7 +31,7 @@ void serve(int port);    /* main server function */
 void disconn(void);
 int doprocessing (int rqst);
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     extern char *optarg;
     extern int optind;
@@ -56,6 +58,7 @@ main(int argc, char **argv)
         exit(1);
     }
     serve(port);
+    return 0;
 }
 
 /* serve: set up the service */
@@ -178,7 +181,7 @@ doprocessing (int rqst)
     bzero(buf, BUFSIZE);
     n = read(rqst, buf, BUFSIZE);
     if (n < 0)
-      error("ERROR reading from socket");
+      perror("ERROR reading from socket");
     printf("server received %d bytes: %s", n, buf);
 
     /*
@@ -186,7 +189,7 @@ doprocessing (int rqst)
      */
     n = write(rqst, buf, strlen(buf));
     if (n < 0)
-      error("ERROR writing to socket");
+      perror("ERROR writing to socket");
 
     return 1;
 }
