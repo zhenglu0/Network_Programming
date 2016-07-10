@@ -3,8 +3,7 @@
 
 using namespace boost::asio;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   // outputs "87.248.122.122"
   io_service service;
   ip::tcp::resolver resolver(service);

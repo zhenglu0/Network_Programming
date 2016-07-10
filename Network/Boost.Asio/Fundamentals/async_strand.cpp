@@ -16,8 +16,7 @@ void worker_thread() {
     service.run();
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     io_service::strand strand_one(service), strand_two(service);
     for ( int i = 0; i < 5; ++i)
         service.post( strand_one.wrap( boost::bind(func, i)));
