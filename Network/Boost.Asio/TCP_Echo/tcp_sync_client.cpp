@@ -42,5 +42,4 @@ int main(int argc, char* argv[]) {
         boost::this_thread::sleep( boost::posix_time::millisec(100));
     }
     threads.join_all();
-    return 0;
 }

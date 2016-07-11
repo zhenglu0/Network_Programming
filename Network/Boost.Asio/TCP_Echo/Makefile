@@ -14,11 +14,7 @@ SPECIAL_FLAGS = -std=c++11
 TARGET = tcp_sync_client \
 		tcp_sync_server \
 		tcp_async_client \
-		tcp_async_server \
-		udp_sync_client \
-		udp_sync_server \
-		udp_async_client \
-		udp_async_server
+		tcp_async_server
 
 all: $(TARGET)
 
@@ -32,18 +28,6 @@ tcp_async_client: tcp_async_client.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 tcp_async_server: tcp_async_server.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
-
-udp_sync_client: udp_sync_client.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
-
-udp_sync_server: udp_sync_server.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
-
-udp_async_client: udp_async_client.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
-
-udp_async_server: udp_async_server.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:

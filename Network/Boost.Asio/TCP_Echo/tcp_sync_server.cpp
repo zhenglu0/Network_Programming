@@ -32,5 +32,4 @@ void handle_connections() {
 
 int main(int argc, char* argv[]) {
     handle_connections();
-    return 0;
 }
