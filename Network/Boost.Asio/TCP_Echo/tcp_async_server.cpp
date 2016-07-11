@@ -74,12 +74,12 @@ void handle_accept(talk_to_client::ptr client, const error_code & err)
     client->start();
     talk_to_client::ptr new_client = talk_to_client::new_();
     acceptor.async_accept(new_client->sock(),
-        boost::bind(handle_accept,new_client,_1));
+                          boost::bind(handle_accept,new_client,_1));
 }
 
 int main(int argc, char* argv[]) {
     talk_to_client::ptr client = talk_to_client::new_();
     acceptor.async_accept(client->sock(),
-        boost::bind(handle_accept,client,_1));
+                          boost::bind(handle_accept,client,_1));
     service.run();
 }
