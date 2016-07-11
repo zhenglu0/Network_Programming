@@ -72,5 +72,4 @@ int main(int argc, char* argv[]) {
     ip::tcp::endpoint ep( ip::address::from_string("127.0.0.1"), 21234);
     connection::ptr(new connection)->start(ep);
     while(1) {sleep(1);}
-    return 0;
 }

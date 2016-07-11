@@ -14,6 +14,7 @@ void handle_connections() {
         ip::udp::endpoint sender_ep;
         int bytes = sock.receive_from(buffer(buff), sender_ep);
         std::string msg(buff, bytes);
+        std::cout << "receive: " << msg; 
         sock.send_to(buffer(msg), sender_ep);
     }
 }

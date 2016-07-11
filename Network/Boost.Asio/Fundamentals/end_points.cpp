@@ -11,6 +11,4 @@ int main(int argc, char *argv[]) {
   ip::tcp::resolver::iterator iter = resolver.resolve( query);
   ip::tcp::endpoint ep = *iter;
   std::cout << ep.address().to_string() << ":" << ep.port() << std::endl;
-
-  return 0;
 }
