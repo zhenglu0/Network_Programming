@@ -50,7 +50,7 @@ struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
                 buffer(buff_ + already_read_, max_msg - already_read_));
     }
     void process_request() {
-        bool found_enter = std::find(buff_, buff_ + already_read_, '\n') 
+        bool found_enter = std::find(buff_, buff_ + already_read_, '\n')
                             < buff_ + already_read_;
         if ( !found_enter)
             return; // message is not full
@@ -59,8 +59,8 @@ struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
         size_t pos = std::find(buff_, buff_ + already_read_, '\n') - buff_;
         std::string msg(buff_, pos);
         std::copy(buff_ + already_read_, buff_ + max_msg, buff_);
-        already_read_ -= pos + 1; 
-        
+        already_read_ -= pos + 1;
+
         std::cout << "msg received: " << msg << ", from: " << username_ << std::endl;
         if (msg.find("login ") == 0) on_login(msg);
         else if ( msg.find("ping") == 0) on_ping();
@@ -89,7 +89,7 @@ struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
     void write(const std::string & msg) {
         std::string msg_no_endl(msg, 0, msg.size()-1);
         std::cout << "msg written: " << msg_no_endl << ", to: " << username_ << std::endl;;
-        sock_.write_some(buffer(msg)); 
+        sock_.write_some(buffer(msg));
     }
 
 private:
