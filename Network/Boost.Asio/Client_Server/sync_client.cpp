@@ -30,13 +30,15 @@ struct talk_to_svr {
         write("ping\n");
     }
     void read_answer() {
-        already_read_ = 0;
-        read(sock_, buffer(buff_),
+        already_read_ = read(sock_, buffer(buff_),
              boost::bind(&talk_to_svr::read_complete, this, _1, _2));
         process_msg();
     }
     void process_msg() {
         std::string msg(buff_, already_read_);
+        std::string msg_no_endl(msg, 0, msg.size()-1);
+        std::cout << "msg received: " << msg_no_endl << " from " << username_ << std::endl;
+
         if ( msg.find("login ") == 0) on_login();
         else if ( msg.find("ping") == 0) on_ping(msg);
         else if ( msg.find("clients ") == 0) on_clients(msg);
@@ -52,7 +54,7 @@ struct talk_to_svr {
     }
     void on_clients(const std::string & msg) {
         std::string clients = msg.substr(8);
-        std::cout << username_ << ", new client list:" << clients;
+        std::cout << username_ << ", new client list: " << clients;
     }
     void do_ask_clients() {
         write("ask_clients\n");
@@ -62,7 +64,7 @@ struct talk_to_svr {
     size_t read_complete(const error_code & err, size_t bytes) {
         if ( err) return 0;
         bool found = std::find(buff_, buff_ + bytes, '\n') < buff_ + bytes;
-    // we read one-by-one until we get to enter, no buffering
+        // we read one-by-one until we get to enter, no buffering
         return found ? 0 : 1;
     }
 private:
@@ -80,7 +82,7 @@ void run_client(const std::string & client_name) {
         client.connect(ep);
         client.loop();
     } catch(boost::system::system_error & err) {
-        std::cerr << "client terminated, can not connect" << std::endl;
+        std::cerr << "client " << client_name << " terminated, can not connect" << std::endl;
     }
 }
 
