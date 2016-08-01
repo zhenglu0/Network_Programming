@@ -20,7 +20,9 @@ boost::recursive_mutex cs; // thread-safe access to clients array
 struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
 {
     talk_to_client() : sock_(service), last_ping(boost::posix_time::microsec_clock::local_time()) {}
-    std::string username() const { return username_; }
+    std::string username() const {
+        return username_;
+    }
     void answer_to_client() {
         try {
             read_request();
@@ -33,8 +35,12 @@ struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
             stop();
         }
     }
-    void update_clients_changed() { clients_changed_ = true; }
-    ip::tcp::socket & sock() { return sock_; }
+    void update_clients_changed() {
+        clients_changed_ = true;
+    }
+    ip::tcp::socket & sock() {
+        return sock_;
+    }
     bool timed_out() const {
         boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
         //std::cout << "now = " << now << std::endl;

@@ -17,7 +17,7 @@ class talk_to_svr : public boost::enable_shared_from_this<talk_to_svr>
 , boost::noncopyable {
     typedef talk_to_svr self_type;
     talk_to_svr(const std::string & username)
-    : sock_(service), started_(true), username_(username),timer_(service) {}
+    : sock_(service), started_(true), username_(username), timer_(service) {}
     void start(ip::tcp::endpoint ep) {
         sock_.async_connect(ep, MEM_FN1(on_connect,_1));
     }
@@ -71,7 +71,7 @@ public:
     }
     void on_clients(const std::string & msg) {
         std::string clients = msg.substr(8);
-        std::cout << username_ << ", new client list:" << clients ;
+        std::cout << username_ << ", new client list: " << clients ;
         postpone_ping();
     }
     // do_* functions
