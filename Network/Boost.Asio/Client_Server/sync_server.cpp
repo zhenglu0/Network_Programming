@@ -19,7 +19,7 @@ boost::recursive_mutex cs; // thread-safe access to clients array
 
 struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
 {
-    talk_to_client() : sock_(service) {}
+    talk_to_client() : sock_(service), last_ping(boost::posix_time::microsec_clock::local_time()) {}
     std::string username() const { return username_; }
     void answer_to_client() {
         try {
@@ -37,7 +37,10 @@ struct talk_to_client : boost::enable_shared_from_this<talk_to_client>
     ip::tcp::socket & sock() { return sock_; }
     bool timed_out() const {
         boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
+        //std::cout << "now = " << now << std::endl;
+        //std::cout << "last_ping = " << last_ping << std::endl;
         long long ms = (now - last_ping).total_milliseconds();
+        //std::cout << "ms = " << ms << std::endl;
         return ms > 5000 ;
     }
     void stop() {
@@ -119,10 +122,9 @@ void handle_clients_thread() {
         boost::recursive_mutex::scoped_lock lk(cs);
         for(array::iterator b = clients.begin(),e = clients.end(); b!= e; ++b)
             (*b)->answer_to_client();
-         // erase clients that timed out
+        // erase clients that timed out
         clients.erase(std::remove_if(clients.begin(), clients.end(),
-            boost::bind(&talk_to_client::timed_out,_1)),
-        clients.end());
+                                     boost::bind(&talk_to_client::timed_out,_1)), clients.end());
     }
 }
 
