@@ -201,11 +201,12 @@ void
 disconn(int fd)
 {
     printf("disconn()\n");
-    shutdown(fd, 2);    /* 2 means future sends & receives are disallowed */
+    //shutdown(fd, 2);    /* 2 means future sends & receives are disallowed */
+    close(fd);
 }
 
 /* Catch Signal Handler function */
 void signal_callback_handler(int signum){
 
-        printf("Caught signal SIGPIPE %d\n",signum);
+    printf("Caught signal SIGPIPE %d\n",signum);
 }
