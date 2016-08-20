@@ -186,7 +186,7 @@ doprocessing (int rqst)
       printf("server received %d bytes: %s", n, buf);
     }
     else if (n == 0) {
-      printf("client disconnected");
+      printf("client disconnected\n");
       return 0;
     }
     else {
@@ -200,6 +200,9 @@ doprocessing (int rqst)
     n = write(rqst, buf, strlen(buf));
     if (n < 0)
       perror("ERROR writing to socket");
+    else {
+      printf("server send %d bytes: %s", n, buf);
+    }
 
     return 1;
 }
