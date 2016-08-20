@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <errno.h>
+#include <signal.h>
 
 #include "port.h"       /* defines default port */
 
@@ -20,6 +21,7 @@
 int conn(char *host, int port);
 void disconn(int fd);
 int doprocessing (int fd);
+void signal_callback_handler(int signum);
 
 int main(int argc, char **argv)
 {
@@ -57,6 +59,9 @@ int main(int argc, char **argv)
 
     if (!(fd = conn(host, port)))    /* connect */
         exit(1);   /* something went wrong */
+
+    /* Catch Signal Handler SIGPIPE */
+    signal(SIGPIPE, signal_callback_handler);
 
     while (doprocessing(fd)) {}
 
@@ -158,18 +163,34 @@ doprocessing (int fd)
     If you write 20 bytes to a socket and then write another 20 bytes to a socket,
     the other side may read all 40 bytes at once ... or not.
     */
+    // http://stackoverflow.com/questions/11436013/writing-to-a-closed-local-tcp-socket-not-failing
     /* send the message line to the server */
+    // it took one write for the sockets to transition to the CLOSED states.
     n = write(fd, buf, strlen(buf));
     if (n < 0)
       perror("ERROR writing to socket");
+    else {
+      printf("server send %d bytes: %s", n, buf);
+    }
 
     /* print the server's reply */
     bzero(buf, BUFSIZE);
-    n = read(fd, buf, BUFSIZE);
-    if (n < 0)
+    //n = read(fd, buf, BUFSIZE);
+    /* http://www.linuxquestions.org/questions/programming-9/
+       how-could-server-detect-closed-client-socket-using-tcp-and-c-824615/ */
+/*
+    if (n > 0) {
+      printf("Echo from server: %s", buf);
+    }
+    else if (n == 0) {
+      printf("server disconnected\n");
+      return 0;
+    }
+    else {
       perror("ERROR reading from socket");
-    printf("Echo from server: %s", buf);
-
+      return 0;
+    }
+*/
     return 1;
 }
 
@@ -179,4 +200,10 @@ disconn(int fd)
 {
     printf("disconn()\n");
     shutdown(fd, 2);    /* 2 means future sends & receives are disallowed */
+}
+
+/* Catch Signal Handler function */
+void signal_callback_handler(int signum){
+
+        printf("Caught signal SIGPIPE %d\n",signum);
 }
