@@ -166,9 +166,19 @@ doprocessing (int fd)
     /* print the server's reply */
     bzero(buf, BUFSIZE);
     n = read(fd, buf, BUFSIZE);
-    if (n < 0)
+    /* http://www.linuxquestions.org/questions/programming-9/
+       how-could-server-detect-closed-client-socket-using-tcp-and-c-824615/ */
+    if (n > 0) {
+      printf("Echo from server: %s", buf);
+    }
+    else if (n == 0) {
+      printf("server disconnected\n");
+      return 0;
+    }
+    else {
       perror("ERROR reading from socket");
-    printf("Echo from server: %s", buf);
+      return 0;
+    }
 
     return 1;
 }
