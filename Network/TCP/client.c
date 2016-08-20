@@ -163,9 +163,11 @@ doprocessing (int fd)
     If you write 20 bytes to a socket and then write another 20 bytes to a socket,
     the other side may read all 40 bytes at once ... or not.
     */
+
     // http://stackoverflow.com/questions/11436013/writing-to-a-closed-local-tcp-socket-not-failing
     /* send the message line to the server */
     // it took one write for the sockets to transition to the CLOSED states.
+
     n = write(fd, buf, strlen(buf));
     if (n < 0)
       perror("ERROR writing to socket");
@@ -175,10 +177,10 @@ doprocessing (int fd)
 
     /* print the server's reply */
     bzero(buf, BUFSIZE);
-    //n = read(fd, buf, BUFSIZE);
+    n = read(fd, buf, BUFSIZE);
     /* http://www.linuxquestions.org/questions/programming-9/
        how-could-server-detect-closed-client-socket-using-tcp-and-c-824615/ */
-/*
+
     if (n > 0) {
       printf("Echo from server: %s", buf);
     }
@@ -190,7 +192,7 @@ doprocessing (int fd)
       perror("ERROR reading from socket");
       return 0;
     }
-*/
+
     return 1;
 }
 
