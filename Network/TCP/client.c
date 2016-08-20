@@ -59,10 +59,10 @@ int main(int argc, char **argv)
 
     if (!(fd = conn(host, port)))    /* connect */
         exit(1);   /* something went wrong */
-    
+
     /* Catch Signal Handler SIGPIPE */
     signal(SIGPIPE, signal_callback_handler);
-    
+
     while (doprocessing(fd)) {}
 
     disconn(fd);    /* disconnect */
