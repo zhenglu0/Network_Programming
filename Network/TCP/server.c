@@ -180,9 +180,19 @@ doprocessing (int rqst)
      */
     bzero(buf, BUFSIZE);
     n = read(rqst, buf, BUFSIZE);
-    if (n < 0)
+    /* http://www.linuxquestions.org/questions/programming-9/
+       how-could-server-detect-closed-client-socket-using-tcp-and-c-824615/ */
+    if (n > 0) {
+      printf("server received %d bytes: %s", n, buf);
+    }
+    else if (n == 0) {
+      printf("client disconnected");
+      return 0;
+    }
+    else {
       perror("ERROR reading from socket");
-    printf("server received %d bytes: %s", n, buf);
+      return 0;
+    }
 
     /*
      * write: echo the input string back to the client
