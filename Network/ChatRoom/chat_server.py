@@ -24,7 +24,7 @@ if __name__ == "__main__":
     PORT = 5000
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # this has no effect, why ?
+    # SO_REUSEADDR socket option, which explicitly allows a process to bind to a port which remains in TIME_WAIT
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind(("0.0.0.0", PORT))
     server_socket.listen(10)
@@ -55,15 +55,22 @@ if __name__ == "__main__":
                     #In Windows, sometimes when a TCP program closes abruptly,
                     # a "Connection reset by peer" exception will be thrown
                     data = sock.recv(RECV_BUFFER)
+                    #print "from %s receive data = %s "  % str(sock.getpeername()), data
+                    print "from " + str(sock.getpeername()) + " receive data = " + data
                     if data:
                         broadcast_data(sock, "\r" + '<' + str(sock.getpeername()) + '> ' + data)
+                    else:
+                        broadcast_data(sock, "Client (%s, %s) is offline\n" % addr)
+                        print "Client (%s, %s) is offline" % addr
+                        sock.close()
+                        CONNECTION_LIST.remove(sock)
+                        continue
 
                 except:
-                    broadcast_data(sock, "Client (%s, %s) is offline" % addr)
+                    broadcast_data(sock, "Client (%s, %s) is offline\n" % addr)
                     print "Client (%s, %s) is offline" % addr
                     sock.close()
                     CONNECTION_LIST.remove(sock)
                     continue
 
     server_socket.close()
-
