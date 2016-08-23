@@ -31,6 +31,15 @@ if __name__ == "__main__":
     print 'Connected to remote host. Start sending messages'
     prompt()
 
+    '''
+        The above shown chat client is not going to work on windows.
+        It uses the select function to read data from both the socket and the input stream. 
+        This works on linux but not on windows.
+
+        File objects on Windows are not acceptable, but sockets are. On Windows,
+        the underlying select() function is provided by the WinSock library,
+        and does not handle file descriptors that don’t originate from WinSock.
+    '''
     while 1:
         socket_list = [sys.stdin, s]
 
