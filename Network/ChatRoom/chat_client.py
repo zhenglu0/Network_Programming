@@ -1,4 +1,4 @@
-# chat_client program example
+# TCP Chat client
 # http://www.binarytides.com/code-chat-application-server-client-sockets-python/
 # http://www.ibm.com/developerworks/linux/tutorials/l-pysocks/
 
@@ -54,4 +54,3 @@ if __name__ == "__main__":
                 msg = sys.stdin.readline()
                 s.send(msg)
                 prompt()
-
