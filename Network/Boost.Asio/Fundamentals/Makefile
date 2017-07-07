@@ -17,7 +17,8 @@ TARGET = end_points \
 		post_dispatch \
 		async_wrap \
 		keep_alive \
-		example1
+		example1 \
+		example3
 
 all: $(TARGET)
 
@@ -40,6 +41,9 @@ keep_alive: keep_alive.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 example1: example1.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+example3: example3.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
