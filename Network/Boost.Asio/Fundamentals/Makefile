@@ -18,7 +18,8 @@ TARGET = end_points \
 		async_wrap \
 		keep_alive \
 		example1 \
-		example3
+		example3 \
+		example4
 
 all: $(TARGET)
 
@@ -44,6 +45,9 @@ example1: example1.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 example3: example3.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+example4: example4.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
