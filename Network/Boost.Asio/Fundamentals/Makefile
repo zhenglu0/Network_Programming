@@ -21,7 +21,8 @@ TARGET = end_points \
 		example3 \
 		example4 \
 		example5 \
-		example6
+		example6 \
+		example7
 
 all: $(TARGET)
 
@@ -56,6 +57,9 @@ example5: example5.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 example6: example6.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+example7: example7.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
