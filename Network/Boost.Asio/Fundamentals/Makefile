@@ -22,7 +22,15 @@ TARGET = end_points \
 		example4 \
 		example5 \
 		example6 \
-		example7
+		example7 \
+		example9
+
+###
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $<
+
+###
 
 all: $(TARGET)
 
@@ -60,6 +68,11 @@ example6: example6.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 example7: example7.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+network.o: network.cpp network.h
+
+example9: example9.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
